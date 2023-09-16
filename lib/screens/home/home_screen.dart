@@ -1,22 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sample/functions/db_functions.dart';
 import 'package:sample/screens/form/form_screen.dart';
 import 'package:sample/screens/home/widgets/notes_tile.dart';
+
+late DocumentSnapshot noteSnap;
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final CollectionReference notes =
-        FirebaseFirestore.instance.collection('notes');
+    DBFunctions controller = Get.put(DBFunctions());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notes'),
       ),
       body: StreamBuilder(
-        stream: notes.snapshots(),
+        stream: controller.notes.orderBy('title').snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             final List<DocumentSnapshot> documents = snapshot.data!.docs;
@@ -30,7 +32,7 @@ class ScreenHome extends StatelessWidget {
               ),
               itemCount: documents.length,
               itemBuilder: (context, index) {
-                final DocumentSnapshot noteSnap = documents[index];
+                noteSnap = documents[index];
                 return NotesTile(noteSnap: noteSnap, index: index);
               },
             );
@@ -43,11 +45,16 @@ class ScreenHome extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
-        onPressed: () => Get.to(const SreenForm()),
-        child: const Icon(Icons.add,color: Colors.white,), 
+        onPressed: () => Get.to(ScreenForm(
+          isEdit: false,
+          index: 0,
+
+        )),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
 }
-
-
