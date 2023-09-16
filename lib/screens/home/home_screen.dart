@@ -22,6 +22,7 @@ class ScreenHome extends StatelessWidget {
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             final List<DocumentSnapshot> documents = snapshot.data!.docs;
+
             return GridView.builder(
               padding: const EdgeInsets.all(8),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -32,8 +33,10 @@ class ScreenHome extends StatelessWidget {
               ),
               itemCount: documents.length,
               itemBuilder: (context, index) {
+                final DocumentSnapshot documentSnapshot =
+                    snapshot.data!.docs[index];
                 noteSnap = documents[index];
-                return NotesTile(noteSnap: noteSnap, index: index);
+                return NotesTile(noteSnap: noteSnap, index: index,documentSnapshot: documentSnapshot,);
               },
             );
           } else if (snapshot.hasError) {
@@ -46,9 +49,9 @@ class ScreenHome extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         onPressed: () => Get.to(ScreenForm(
+          documentSnapshot: noteSnap,
           isEdit: false,
           index: 0,
-
         )),
         child: const Icon(
           Icons.add,

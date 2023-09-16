@@ -5,9 +5,14 @@ import 'package:sample/functions/db_functions.dart';
 import 'package:sample/screens/form/form_screen.dart';
 
 class NotesTile extends StatelessWidget {
-  const NotesTile({super.key, required this.noteSnap, required this.index});
+  const NotesTile(
+      {super.key,
+      required this.noteSnap,
+      required this.index,
+      required this.documentSnapshot});
   final DocumentSnapshot noteSnap;
   final int index;
+  final DocumentSnapshot documentSnapshot;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +37,11 @@ class NotesTile extends StatelessWidget {
                 children: [
                   Flexible(
                       child: Text(
-                    "${noteSnap['title']}" ?? '',
+                    "${noteSnap['title']}" ?? '', 
                     maxLines: 1,
                   )),
                   IconButton(
-                      onPressed: () => controller.addNote(),
+                      onPressed: () => controller.deleteNote(),
                       icon: const Icon(
                         Icons.delete,
                         color: Colors.blue,
@@ -60,9 +65,9 @@ class NotesTile extends StatelessWidget {
 
   navigate() {
     Get.to(ScreenForm(
+      documentSnapshot: documentSnapshot,
       isEdit: true,
       index: index,
-
     ));
   }
 }

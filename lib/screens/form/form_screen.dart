@@ -3,19 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sample/functions/db_functions.dart';
 
-DBFunctions controller = Get.put(DBFunctions());
-
 class ScreenForm extends StatelessWidget {
-  const ScreenForm(
-      {super.key,
-      required this.isEdit,
-      required this.index,
- });
+  const ScreenForm({
+    super.key,
+    required this.isEdit,
+    required this.index,
+    required this.documentSnapshot,
+  });
   final bool isEdit;
   final int index;
+  final DocumentSnapshot documentSnapshot;
 
   @override
   Widget build(BuildContext context) {
+    DBFunctions controller = Get.put(DBFunctions());
+    controller.loadNotes(documentSnapshot);
     return Scaffold(
       appBar: AppBar(
         title: Text(isEdit ? 'Edit Note' : 'Add Notes'),
@@ -49,7 +51,9 @@ class ScreenForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                      onPressed: () => controller.addNote(),
+                      onPressed: () => isEdit
+                          ? controller.updateNote(documentSnapshot)
+                          : controller.addNote(),
                       icon: const Icon(Icons.save),
                       label: const Text('Save')),
                 )
