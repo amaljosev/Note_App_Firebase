@@ -15,8 +15,7 @@ class DBFunctions extends GetxController {
       'description': descriptionController.text,
     };
     notes.add(note);
-    titleController.text = '';
-    descriptionController.text = '';
+    reset();
     Get.back();
   }
 
@@ -49,5 +48,9 @@ class DBFunctions extends GetxController {
     } else {
       print('null obtained');
     }
+  }
+  reset(){
+    titleController.text = '';
+    descriptionController.text = '';
   }
 }

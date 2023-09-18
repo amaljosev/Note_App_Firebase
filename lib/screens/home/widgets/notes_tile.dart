@@ -37,11 +37,11 @@ class NotesTile extends StatelessWidget {
                 children: [
                   Flexible(
                       child: Text(
-                    "${noteSnap['title']}" ?? '', 
+                    "${noteSnap['title']}", 
                     maxLines: 1,
                   )),
                   IconButton(
-                      onPressed: () => controller.deleteNote(),
+                      onPressed: () => controller.deleteNote(documentSnapshot),
                       icon: const Icon(
                         Icons.delete,
                         color: Colors.blue,
@@ -53,7 +53,7 @@ class NotesTile extends StatelessWidget {
               ),
               Flexible(
                   child: Text(
-                "    ${noteSnap['description']}" ?? "",
+                "    ${noteSnap['description']}",
                 overflow: TextOverflow.fade,
               )),
             ],

@@ -17,7 +17,7 @@ class ScreenForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DBFunctions controller = Get.put(DBFunctions());
-    controller.loadNotes(documentSnapshot);
+    isEdit ? controller.loadNotes(documentSnapshot) : controller.reset();
     return Scaffold(
       appBar: AppBar(
         title: Text(isEdit ? 'Edit Note' : 'Add Notes'),

@@ -36,7 +36,11 @@ class ScreenHome extends StatelessWidget {
                 final DocumentSnapshot documentSnapshot =
                     snapshot.data!.docs[index];
                 noteSnap = documents[index];
-                return NotesTile(noteSnap: noteSnap, index: index,documentSnapshot: documentSnapshot,);
+                return NotesTile(
+                  noteSnap: noteSnap,
+                  index: index,
+                  documentSnapshot: documentSnapshot,
+                );
               },
             );
           } else if (snapshot.hasError) {
